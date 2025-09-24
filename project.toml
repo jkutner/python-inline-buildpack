@@ -1,0 +1,35 @@
+[_]
+schema-version = "0.2"
+id = "hello-project"
+
+[io.buildpacks]
+builder = "heroku/builder:24"
+
+[[io.buildpacks.group]]
+id = "uv-buildpack"
+
+    [io.buildpacks.group.script]
+    api = "0.10"
+    inline = """#!/bin/bash
+set -eu
+
+# install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+. $HOME/.local/bin/env
+
+# install dependencies
+uv sync
+
+# keep uv in the run image
+cp $HOME/.local/bin/uv .
+
+# export CNB_BP_LAYERS_DIR="$1"
+# export CNB_PLATFORM_DIR="$2"
+
+# uv_layer="$CNB_BP_LAYERS_DIR/uv"
+# mkdir -p $uv_layer/bin
+# cp $HOME/.local/bin/uv $uv_layer/bin/uv
+
+# echo "[types]" >> "${uv_layer}.toml"
+# echo "launch = true" >> "${uv_layer}.toml"
+"""
