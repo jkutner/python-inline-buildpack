@@ -15,21 +15,18 @@ set -eu
 
 # install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
-. $HOME/.local/bin/env
-
-# install dependencies
-uv sync
-
-# keep uv in the run image
 cp $HOME/.local/bin/uv .
 
-# export CNB_BP_LAYERS_DIR="$1"
-# export CNB_PLATFORM_DIR="$2"
+# install dependencies
+./uv sync
 
-# uv_layer="$CNB_BP_LAYERS_DIR/uv"
-# mkdir -p $uv_layer/bin
-# cp $HOME/.local/bin/uv $uv_layer/bin/uv
+# put uv in a layer for caching
+uv_layer="$1/uv"
+mkdir -p $uv_layer/bin
+cp uv $uv_layer/bin/uv
 
-# echo "[types]" >> "${uv_layer}.toml"
-# echo "launch = true" >> "${uv_layer}.toml"
+echo "[types]" > "${uv_layer}.toml"
+echo "launch = true" >> "${uv_layer}.toml"
+echo "cache = true" >> "${uv_layer}.toml"
+echo "build = true" >> "${uv_layer}.toml"
 """
