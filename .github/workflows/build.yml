@@ -18,7 +18,7 @@ jobs:
         uses: buildpacks/github-actions/setup-pack@v5.9.6
 
       - name: Build with Pack
-        run: pack build python-inline-buildpack-app --path . --builder heroku/builder:24
+        run: pack build python-inline-buildpack --path . --builder heroku/builder:24
 
       - name: Log in to GitHub Container Registry
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -31,7 +31,7 @@ jobs:
       - name: Tag and push image
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          docker tag python-inline-buildpack-app ghcr.io/${{ github.repository_owner }}/python-inline-buildpack-app:latest
-          docker tag python-inline-buildpack-app ghcr.io/${{ github.repository_owner }}/python-inline-buildpack-app:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository_owner }}/python-inline-buildpack-app:latest
-          docker push ghcr.io/${{ github.repository_owner }}/python-inline-buildpack-app:${{ github.sha }}
+          docker tag python-inline-buildpack ghcr.io/${{ github.repository_owner }}/python-inline-buildpack:latest
+          docker tag python-inline-buildpack ghcr.io/${{ github.repository_owner }}/python-inline-buildpack:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository_owner }}/python-inline-buildpack:latest
+          docker push ghcr.io/${{ github.repository_owner }}/python-inline-buildpack:${{ github.sha }}
