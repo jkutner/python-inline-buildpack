@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5
+        uses: buildpacks/github-actions/setup-pack@v5.9.6
 
       - name: Build with Pack
         run: pack build python-inline-buildpack-app --path . --builder heroku/builder:24
